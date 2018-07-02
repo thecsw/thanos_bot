@@ -9,18 +9,18 @@ def init_database(conn):
     
 def is_logged(conn, username):
     c = conn.cursor()
-    args = c.execute("SELECT COUNT(1) FROM Universe WHERE Name = ?;", (username,))
+    args = c.execute("SELECT COUNT(1) FROM Universe WHERE Name = ?;", (str(username),))
     result = list(args.fetchone())[0]
     c.close()
-    print(f"Found? {result}")
+    print("Found? {}".format(result))
     return result
 
 def add_user(conn, username, comment):
     c = conn.cursor()
     c.execute("INSERT INTO Universe (Name, Comment) VALUES (?, ?);", (str(username), str(comment),))
-    conn.commmit()
+    conn.commit()
     c.close()
-    print(f"Added new user - {str(username)}")
+    print("Added new user - {}".format(str(username)))
 
 def get_all(conn):
     c = conn.cursor()

@@ -1,7 +1,7 @@
+
 import praw
 import sqlite3
-import random
-
+import random 
 import config
 import database
 
@@ -17,12 +17,20 @@ conn = sqlite3.connect("thanos.db")
 
 def find_users():
     print("Starting searching...")
-    for comment in subreddit.comments(limit=100):
-        print(f"Doing {comment.id}")
-        author = comment.author
-        if (not database.is_logged(conn, author)):
-            database.add_user(conn, author, comment.id)
-            print(f"Added {author}")
+    counter = 0
+    sub = 0
+    for submission in subreddit.top('all', limit=10000):
+        sub += 1
+        print("{} --> Starting new submission {}".format(sub, submission.id))
+        submission.comments.replace_more(limit=1000)
+        for comment in submission.comments:
+            counter += 1
+            print("{}. Doing {}".format(counter, comment.id))
+            author = comment.author
+            if (not database.is_logged(conn, author)):
+                database.add_user(conn, author, comment.id)
+                print("Added {}".format(author))
+
 
 def ban_users():
     all_users = database.get_all()
