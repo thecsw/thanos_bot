@@ -36,6 +36,7 @@ def ban_users():
     all_users = database.get_all()
     banned = [x for x in all_users if random.randint(1, 100) % 2 == 0]
     # list banned will contain everyone that needs to get banned
+    not_banned = [x for x in all_users if not x in banned]
     
 database.init_database(conn)
 find_users()
