@@ -1,6 +1,6 @@
 import praw
 import sqlite3
-import tqdm
+import random
 
 import config
 import database
@@ -24,6 +24,11 @@ def find_users():
             database.add_user(conn, author, comment.id)
             print(f"Added {author}")
 
+def ban_users():
+    all_users = database.get_all()
+    banned = [x for x in all_users if random.randint(1, 100) % 2 == 0]
+    # list banned will contain everyone that needs to get banned
+    
 database.init_database(conn)
 find_users()
 conn.close()

@@ -21,3 +21,10 @@ def add_user(conn, username, comment):
     conn.commmit()
     c.close()
     print(f"Added new user - {str(username)}")
+
+def get_all(conn):
+    c = conn.cursor()
+    args = c.execute("SELECT Name FROM Universe;")
+    result = [x[0] for x in args.fetchall()]
+    c.close()
+    return result
