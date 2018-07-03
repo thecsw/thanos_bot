@@ -37,6 +37,11 @@ def ban_users():
     banned = [x for x in all_users if random.randint(1, 100) % 2 == 0]
     # list banned will contain everyone that needs to get banned
     not_banned = [x for x in all_users if not x in banned]
+    for user in banned:
+        subreddit.flair.set(user,'perished')
+        #Subreddit.banned.add(user, ban_reason='The universe needs balance')
+    for user in not_banned:
+        subreddit.flair.set(user,'survived')
     
 database.init_database(conn)
 find_users()
